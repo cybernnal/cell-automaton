@@ -20,6 +20,8 @@
 #include "SDL2/SDL.h"
 #define WIN_X   1700
 #define WIN_Y   1075
+#define WIN         200
+
 # define L_C(X, x1, x2, y1, y2) ((int)(((X - x1) * (y2 - y1)) / (x2 - x1)) + y1)
 # define L_CF(X, x1, x2, y1, y2) ((float)(((float)((X - x1) * (y2 - y1))) / (float)(x2 - x1)) + y1)
 #define WHITE   (Uint32) ((255 << 16) + (255 << 8) + 255)
@@ -38,6 +40,14 @@ typedef struct                  s_window
     int                     is_init;
 }                           t_window;
 
+typedef struct      s_tab
+{
+    int            tab[4];
+    int            intput;
+    int            output;
+    struct s_tab   *next;
+}                   t_tab;
+
 typedef struct		s_env
 {
 	char			**map;
@@ -49,7 +59,14 @@ typedef struct		s_env
 	int 			n_m;
     int             i_min;
     int             i_stop;
+    int             print;
+	int 			wire;
+    int             is_t;
+    int             state_max;
+    int             *i_max;
     int 		    **tab;
+    t_tab            **lst;
+    t_tab            **f;
 }					t_env;
 
 void    			get_arg(t_env *env, char **argv);

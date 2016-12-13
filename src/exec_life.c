@@ -44,17 +44,12 @@ static int      get_med(int med[10])
     return (j);
 }
 
-static int     is_life(t_env *env, int x, int y)
+static int  is_n_hit(t_env *env, int x, int y, int n)
 {
-    int         hit = 0;
-    int         x1;
-    int         y1;
-    int         med[10]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int         ret;
-    int         tmp;
+    int x1 = -env->n_m;
+    int y1 = -env->n_m;
+    int hit = 0;
 
-    x1 = -env->n_m;
-    y1 = -env->n_m;
     while (y1 <= env->n_m)
     {
         while (x1 <= env->n_m)
@@ -64,26 +59,104 @@ static int     is_life(t_env *env, int x, int y)
                 x1++;
                 continue ;
             }
-            tmp = get_stat(env, x + x1, y + y1);
-            med[tmp]++;
-            if (tmp > 0)
+            if (env->tab[y + y1][x + x1] == n)
                 hit++;
             x1++;
         }
         x1 = -env->n_m;
         y1++;
     }
-    if ((is_true(hit, env->s) == true && env->tab[y][x] > 0) || (is_true(hit, env->b) == true && env->tab[y][x] == 0))
+    return (hit);
+}
+
+static int      is_ok(t_env *env, int i, int x, int y)
+{
+    if (get_stat(env, x, y - 1) == env->lst[i]->tab[0] && get_stat(env, x + 1 , y) == env->lst[i]->tab[1] && get_stat(env, x, y + 1) == env->lst[i]->tab[2] && get_stat(env, x - 1, y) == env->lst[i]->tab[3])
+        return (1);
+    if (get_stat(env, x, y - 1) == env->lst[i]->tab[1] && get_stat(env, x + 1 , y) == env->lst[i]->tab[2] && get_stat(env, x, y + 1) == env->lst[i]->tab[3] && get_stat(env, x - 1, y) == env->lst[i]->tab[0])
+        return (1);
+    if (get_stat(env, x, y - 1) == env->lst[i]->tab[2] && get_stat(env, x + 1 , y) == env->lst[i]->tab[3] && get_stat(env, x, y + 1) == env->lst[i]->tab[0] && get_stat(env, x - 1, y) == env->lst[i]->tab[1])
+        return (1);
+    if (get_stat(env, x, y - 1) == env->lst[i]->tab[3] && get_stat(env, x + 1 , y) == env->lst[i]->tab[0] && get_stat(env, x, y + 1) == env->lst[i]->tab[1] && get_stat(env, x - 1, y) == env->lst[i]->tab[2])
+        return (1);
+    return (0);
+}
+
+static int      tab_life(t_env *env, int x, int y)
+{
+    int i = 0;
+
+    while (i < env->state_max)
     {
-        ret = get_med(med);
-        if (ret == 0)
-            ret++;
-        return (ret);
+        env->lst[i] = env->f[i];
+        i++;
+    }
+    i = 0;
+    while (i < env->i_max[env->tab[y][x]])
+    {
+        if (is_ok(env, env->tab[y][x], x, y))
+            return (env->lst[env->tab[y][x]]->output);
+        env->lst[env->tab[y][x]] = env->lst[env->tab[y][x]]->next;
+        i++;
     }
     return (0);
 }
 
-static void     cp_tab(int tmp[60][60], t_env *env)
+  static int     is_life(t_env *env, int x, int y)
+  {
+      int         hit = 0;
+      int         x1;
+      int         y1;
+      int         med[10]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+      int         ret;
+      int         tmp;
+
+      x1 = -env->n_m;
+      y1 = -env->n_m;
+      if (env->is_t)
+          return (tab_life(env, x, y));
+      while (y1 <= env->n_m)
+      {
+          while (x1 <= env->n_m)
+          {
+              if (x1 == 0 && y1 == 0)
+              {
+                  x1++;
+                  continue ;
+              }
+              tmp = get_stat(env, x + x1, y + y1);
+              med[tmp]++;
+              if (tmp > 0)
+                  hit++;
+              x1++;
+          }
+          x1 = -env->n_m;
+          y1++;
+      }
+      if (env->wire == 1)
+      {
+          if (env->tab[y][x] == 0)
+              return (0);
+          if (env->tab[y][x] == 1 && (is_n_hit(env, x, y, 2) == 1 || is_n_hit(env, x, y, 2) == 2))
+              return (2);
+          else if (env->tab[y][x] == 1)
+              return (1);
+          if (env->tab[y][x] == 2)
+              return (3);
+          if (env->tab[y][x] == 3)
+              return (1);
+      }
+      else if ((is_true(hit, env->s) == true && env->tab[y][x] > 0) || (is_true(hit, env->b) == true && env->tab[y][x] == 0))
+      {
+          ret = get_med(med);
+          if (ret == 0)
+              ret++;
+          return (ret);
+      }
+      return (0);
+}
+
+static void     cp_tab(int tmp[WIN][WIN], t_env *env)
 {
     int x = 0;
     int y = 0;
@@ -104,7 +177,7 @@ static void     creat_life(t_env *env)
 {
     int x = 0;
     int y = 0;
-    int tmp[60][60];
+    int tmp[WIN][WIN];
 
     while (y < env->line)
     {
@@ -137,11 +210,14 @@ void        exec_life(t_env *env)
             ft_putstr("iteration: ");
             ft_putnbr(i);
             ft_putendl("");
-            print_map(env);
-            ft_putendl("");
+            if (env->print)
+            {
+                print_map(env);
+                ft_putendl("");
+            }
             usleep((useconds_t)env->sleep);
         }
-        if (env->i_stop == 0 || i < env->i_stop)
+        if (env->i_stop == 0 || i <= env->i_stop)
         {
             creat_life(env);
             i++;
