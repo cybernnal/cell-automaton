@@ -44,11 +44,11 @@ int			c_to_d(t_env *env)
     i = 0;
     j = 0;
     m = 0;
-	env->mod = nb_nb(env->map[0]);
-	env->tab = (int**)ft_memalloc(sizeof(int*) * (env->line));
+	env->mod = env->line;
+	env->tab = (int**)ft_memalloc(sizeof(int*) * (env->line+1));
 	while (env->map[i])
 	{
-        env->tab[i] = (int*)ft_memalloc(sizeof(int) * (env->mod));
+        env->tab[i] = (int*)ft_memalloc(sizeof(int) * (env->mod+1));
         while (env->map[i][j])
         {
             if (!ft_isdigit(env->map[i][j]))

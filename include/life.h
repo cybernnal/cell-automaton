@@ -18,7 +18,7 @@
 #include <stdbool.h>
 
 #include "SDL2/SDL.h"
-#define WIN_X   1700
+#define WIN_X   1075
 #define WIN_Y   1075
 #define WIN         200
 
@@ -30,6 +30,10 @@
 #define BLEU    (Uint32) ((0 << 16) + (0 << 8) + 255)
 #define PURPUL  (Uint32) ((108 << 16) + (2 << 8) + 119)
 #define ORANGE  (Uint32) ((250 << 16) + (164 << 8) + 1)
+#define MAGENTA (Uint32) ((255 << 16) + (0 << 8) + 255)
+#define CYAN    (Uint32) ((0 << 16) + (255 << 8) + 255)
+#define BROWN   (Uint32) ((139 << 16) + (69 << 8) + 19)
+
 typedef struct                  s_window
 {
     SDL_Window              *window;

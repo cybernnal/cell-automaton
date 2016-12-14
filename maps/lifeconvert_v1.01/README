@@ -1,0 +1,9 @@
+Readme file for the Life file converter - A tool to convert Life 1.06 files
+into a c-language structure for the Wayne and Layne Arduino Game of Life
+simulation software.
+
+Written by Matthew Beckler and Adam Wolf of Wayne and Layne, LLC.
+Version 1.01 - December 3, 2010
+
+For more information, visit: http://lifeconvert.wayneandlayne.com/
+

@@ -15,13 +15,15 @@ static void map_size(t_env *env, int fd)
     {
         if (!line)
             break ;
+        if (line[0] == '.')
+            size--;
         size++;
         free(line);
     }
     if (size == 0 || !line)
         ft_error("read error");
     free(line);
-    env->line = size - 1;
+    env->line = size;
 }
 
 static void get_rules(t_env *env, char *line)
