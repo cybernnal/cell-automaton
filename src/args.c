@@ -196,6 +196,10 @@ void     get_arg(t_env *env, char **argv)
             env->print = 1;
         else if (!ft_strcmp("-w", argv[i]))
             env->wire = 1;
+        else if (!ft_strcmp("-q", argv[i]))
+            env->quit = 1;
+        else if (!ft_strcmp("-z", argv[i]))
+            env->is_dz = 1;
         i++;
     }
 }

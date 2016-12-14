@@ -2,6 +2,7 @@
 // Created by tom billard on 13/12/2016.
 //
 
+#include <pthread.h>
 #include "life.h"
 
 static int     get_stat(t_env *env, int x, int y)
@@ -82,21 +83,21 @@ static int      is_ok(t_env *env, int i, int x, int y)
     return (0);
 }
 
-static int      tab_life(t_env *env, int x, int y)
+static int      tab_life(t_env env, int x, int y)
 {
     int i = 0;
 
-    while (i < env->state_max)
+    while (i < env.state_max)
     {
-        env->lst[i] = env->f[i];
+        env.lst[i] = env.f[i];
         i++;
     }
     i = 0;
-    while (i < env->i_max[env->tab[y][x]])
+    while (i < env.i_max[env.tab[y][x]])
     {
-        if (is_ok(env, env->tab[y][x], x, y))
-            return (env->lst[env->tab[y][x]]->output);
-        env->lst[env->tab[y][x]] = env->lst[env->tab[y][x]]->next;
+        if (is_ok(&env, env.tab[y][x], x, y))
+            return (env.lst[env.tab[y][x]]->output);
+        env.lst[env.tab[y][x]] = env.lst[env.tab[y][x]]->next;
         i++;
     }
     return (0);
@@ -114,7 +115,7 @@ static int      tab_life(t_env *env, int x, int y)
       x1 = -env->n_m;
       y1 = -env->n_m;
       if (env->is_t)
-          return (tab_life(env, x, y));
+          return (tab_life(*env, x, y));
       while (y1 <= env->n_m)
       {
           while (x1 <= env->n_m)
@@ -156,7 +157,7 @@ static int      tab_life(t_env *env, int x, int y)
       return (0);
 }
 
-static void     cp_tab(int tmp[WIN][WIN], t_env *env)
+static void     cp_tab(t_env *env, int tmp[env->mod][env->mod])
 {
     int x = 0;
     int y = 0;
@@ -173,30 +174,94 @@ static void     cp_tab(int tmp[WIN][WIN], t_env *env)
     }
 }
 
-static void     creat_life(t_env *env)
+static void     do_dz(t_env *env)
 {
     int x = 0;
     int y = 0;
-    int tmp[WIN][WIN];
+    int **tmp;
+    int i = 0;
+    int j = 0;
 
-    while (y < env->line)
+    if (env->mod_1 == 0)
+        env->mod_1 = env->mod;
+    int size = env->mod + (env->mod_1 / 2);
+
+    tmp = (int**)ft_memalloc(sizeof(int*) * size);
+    while (y < size)
     {
-        while (x < env->mod)
+        tmp[y] = (int*)ft_memalloc(sizeof(int) * size);
+        while (x < size)
         {
-            tmp[y][x] = is_life(env, x, y);
+            //  if (x >= env->mod / 2 && x < (size - (env->mod / 2)) && y >= env->mod / 2 && y < (size - (env->mod / 2)))
+            if (x - (env->mod_1 / 4) >= 0 && x < env->mod + (env->mod_1 / 4) - 1 && y - (env->mod_1 / 4) >= 0 && y < env->mod + (env->mod_1 / 4) - 1)
+            {
+                //printf("x: %d, y: %d x2: %d, y2: %d, value: %d\n", x, y, x - (env->mod_1 / 4), y - (env->mod_1 / 4), tmp[y][x]);
+                tmp[y][x] = env->tab[y - (env->mod_1 / 4)][x - (env->mod_1 / 4)];
+            }
+            else
+                tmp[y][x] = 0;
             x++;
         }
         x = 0;
         y++;
     }
-    cp_tab(tmp, env);
+    y = 0;
+    while (y < env->mod)
+    {
+        free(env->tab[y]);
+        y++;
+    }
+    free(env->tab);
+    env->tab = tmp;
+    env->mod = size;
+    env->line = size;
+    env->is_bzero = 1;
+    /*
+    x = 0;
+    y = 0;
+    while (y < size)
+    {
+        while (x < size)
+        {
+            ft_putnbr(tmp[y][x]);
+            ft_putchar(' ');
+            x++;
+        }
+        ft_putendl("");
+        x = 0;
+        y++;
+    }
+    exit(0);*/
+}
+
+static void     creat_life(t_env *env)
+{
+    int x = 0;
+    int y = 0;
+    int tmp[env->mod][env->mod];
+    int i = 0 ;
+    while (y < env->line)
+    {
+        while (x < env->mod)
+        {
+            if ((tmp[y][x] = is_life(env, x, y)) > 0 && (x <= 2 || y <= 2 || x == env->mod - 3 || y == env->line - 3))
+                env->dz = 1;
+            x++;
+        }
+        x = 0;
+        y++;
+    }
+    cp_tab(env, tmp);
+    if (env->dz != 0 && env->is_dz == 1)
+        do_dz(env);
+    env->dz = 0;
 }
 
 void        exec_life(t_env *env)
 {
     int i = 0;
 
-    if (env->i_min > env->i_stop)
+    if (env->i_min > env->i_stop && env->i_stop != 0)
     {
         ft_putendl("arguments error");
         env->i_min = 0;
@@ -217,6 +282,8 @@ void        exec_life(t_env *env)
             }
             usleep((useconds_t)env->sleep);
         }
+        if (i > env->i_stop && env->quit == 1)
+            return ;
         if (env->i_stop == 0 || i <= env->i_stop)
         {
             creat_life(env);

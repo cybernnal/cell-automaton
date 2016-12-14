@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(life)
 enable_language(C)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast -lpthread")
 
 set(SOURCE_FILES
     include/life.h

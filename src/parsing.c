@@ -24,11 +24,8 @@ static void map_size(t_env *env, int fd)
     env->line = size - 1;
 }
 
-static void get_rules(int fd, t_env *env)
+static void get_rules(t_env *env, char *line)
 {
-    char *line;
-
-    get_next_line(fd, &line);
     env->b = ft_strrevchr(line, '/');
     env->s = ft_strdup(ft_strchr(line, '/') + 1);
     free (line);
@@ -48,12 +45,14 @@ void        pars_map(t_env *env, char *arg)
     env->map = (char**)ft_memalloc((sizeof(char*) * env->line + 1));
     if ((fd = open(arg, O_RDONLY)) < 0)
         ft_error("open error");
-    get_rules(fd, env);
     while (get_next_line(fd, &env->map[i]))
     {
         if (!env->map[i])
             ft_error("read error");
-        i++;
+        if (env->map[i][0] == '.')
+            get_rules(env, env->map[i]);
+        else
+            i++;
     }
     env->map[i] = NULL;
     if ((close(fd)) != 0)

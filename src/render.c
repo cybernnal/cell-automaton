@@ -89,8 +89,12 @@ int        render(t_env * env)
 		init_window(&w);
 		w.is_init = 1;
 	}
-   // bzero(w.img_ptr, sizeof(Uint32) * WIN_Y * WIN_X);
-	while (SDL_PollEvent(&w.event))
+    if (env->is_bzero == 1)
+    {
+        env->is_bzero = 0;
+        bzero(w.img_ptr, sizeof(Uint32) * WIN_Y * WIN_X);
+    }
+ 	while (SDL_PollEvent(&w.event))
 		key_handler(w.event, env);
 	render_map(&w, env);
 	SDL_UpdateTexture(w.image, NULL, w.img_ptr, WIN_X * sizeof(Uint32));
