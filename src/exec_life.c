@@ -116,6 +116,20 @@ static int      tab_life(t_env env, int x, int y)
       y1 = -env->n_m;
       if (env->is_t)
           return (tab_life(*env, x, y));
+      if (env->wire == 1)
+      {
+          if (env->tab[y][x] == 0)
+              return (0);
+          if (env->tab[y][x] == 1 && (is_n_hit(env, x, y, 2) == 1 || is_n_hit(env, x, y, 2) == 2))
+              return (2);
+          else if (env->tab[y][x] == 1)
+              return (1);
+          if (env->tab[y][x] == 2)
+              return (3);
+          if (env->tab[y][x] == 3)
+              return (1);
+          return (0);
+      }
       while (y1 <= env->n_m)
       {
           while (x1 <= env->n_m)
@@ -134,20 +148,7 @@ static int      tab_life(t_env env, int x, int y)
           x1 = -env->n_m;
           y1++;
       }
-      if (env->wire == 1)
-      {
-          if (env->tab[y][x] == 0)
-              return (0);
-          if (env->tab[y][x] == 1 && (is_n_hit(env, x, y, 2) == 1 || is_n_hit(env, x, y, 2) == 2))
-              return (2);
-          else if (env->tab[y][x] == 1)
-              return (1);
-          if (env->tab[y][x] == 2)
-              return (3);
-          if (env->tab[y][x] == 3)
-              return (1);
-      }
-      else if ((is_true(hit, env->s) == true && env->tab[y][x] > 0) || (is_true(hit, env->b) == true && env->tab[y][x] == 0))
+      if ((is_true(hit, env->s) == true && env->tab[y][x] > 0) || (is_true(hit, env->b) == true && env->tab[y][x] == 0))
       {
           ret = get_med(med);
           if (ret == 0)
@@ -192,12 +193,8 @@ static void     do_dz(t_env *env)
         tmp[y] = (int*)ft_memalloc(sizeof(int) * size);
         while (x < size)
         {
-            //  if (x >= env->mod / 2 && x < (size - (env->mod / 2)) && y >= env->mod / 2 && y < (size - (env->mod / 2)))
             if (x - (env->mod_1 / 4) >= 0 && x < env->mod + (env->mod_1 / 4) - 1 && y - (env->mod_1 / 4) >= 0 && y < env->mod + (env->mod_1 / 4) - 1)
-            {
-                //printf("x: %d, y: %d x2: %d, y2: %d, value: %d\n", x, y, x - (env->mod_1 / 4), y - (env->mod_1 / 4), tmp[y][x]);
                 tmp[y][x] = env->tab[y - (env->mod_1 / 4)][x - (env->mod_1 / 4)];
-            }
             else
                 tmp[y][x] = 0;
             x++;
@@ -216,22 +213,6 @@ static void     do_dz(t_env *env)
     env->mod = size;
     env->line = size;
     env->is_bzero = 1;
-    /*
-    x = 0;
-    y = 0;
-    while (y < size)
-    {
-        while (x < size)
-        {
-            ft_putnbr(tmp[y][x]);
-            ft_putchar(' ');
-            x++;
-        }
-        ft_putendl("");
-        x = 0;
-        y++;
-    }
-    exit(0);*/
 }
 
 static void     creat_life(t_env *env)
