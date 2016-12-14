@@ -56,8 +56,11 @@ int			c_to_d(t_env *env)
                 j++;
                 continue ;
             }
-            env->tab[i][m] = env->map[i][j] - 48;
-            j++;
+	    if (env->map[i][j])
+            	env->tab[i][m] = env->map[i][j] - 48;
+            else
+		    env->tab[i][m] = 0;
+	    j++;
             m++;
         }
         i++;
