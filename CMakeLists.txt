@@ -81,7 +81,7 @@ add_executable(life ${SOURCE_FILES})
 include_directories(include)
 include_directories(libft)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${fdf_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${life_SOURCE_DIR}/cmake")
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR})
 target_link_libraries(life ${SDL2_LIBRARY} -lm)

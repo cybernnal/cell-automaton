@@ -61,7 +61,7 @@ static void		render_map(t_window *w, t_env *env)
 			else if (env->tab[y1][x1] == 1)
 				draw_pix(w, off, x, y, PURPUL);
             else if (env->tab[y1][x1] == 2)
-                draw_pix(w, off, x, y, RED);
+                draw_pix(w, off, x, y,MAGENTA);
             else if (env->tab[y1][x1] == 3)
                 draw_pix(w, off, x, y, BLEU);
             else if (env->tab[y1][x1] == 4)
@@ -73,7 +73,7 @@ static void		render_map(t_window *w, t_env *env)
             else if (env->tab[y1][x1] == 7)
                 draw_pix(w, off, x, y, CYAN);
             else if (env->tab[y1][x1] == 8)
-                draw_pix(w, off, x, y, MAGENTA);
+                draw_pix(w, off, x, y, RED );
             else if (env->tab[y1][x1] >= 9)
                 draw_pix(w, off, x, y, BROWN);
             else
