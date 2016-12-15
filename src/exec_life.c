@@ -263,9 +263,9 @@ void        exec_life(t_env *env)
             }
             usleep((useconds_t)env->sleep);
         }
-        if (i > env->i_stop && env->quit == 1)
+        if (i >= env->i_stop && env->quit == 1)
             return ;
-        if (env->i_stop == 0 || i <= env->i_stop)
+        if (env->i_stop == 0 || i < env->i_stop)
         {
             creat_life(env);
             i++;
