@@ -16,8 +16,8 @@ void	*ft_memalloc(size_t size)
 {
 	unsigned char *ptr;
 
-	ptr = (unsigned char*)malloc(sizeof(unsigned char) * (size));
-	if (ptr == 0)
+
+	if (!(ptr = (unsigned char*)malloc(sizeof(unsigned char) * (size))) || ptr == 0)
 	{
 		ft_putendl_fd("Malloc error", 2);
 		exit (0);

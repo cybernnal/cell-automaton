@@ -41,7 +41,10 @@ void        pars_map(t_env *env, char *arg)
     i = 0;
     if ((fd = open(arg, O_RDONLY)) < 0)
         ft_error("open error");
-    map_size(env, fd);
+    if (env->map_size == 0)
+        map_size(env, fd);
+    else
+        env->line = env->map_size;
     if ((close(fd)) != 0)
         ft_error("close fd error");
     env->map = (char**)ft_memalloc((sizeof(char*) * env->line + 1));

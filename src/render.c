@@ -1,14 +1,30 @@
 #include <time.h>
 #include "life.h"
 
-static void key_handler(SDL_Event event, t_env *env)
+
+static void key_handler(SDL_Event event, t_env *env, t_window *w)
 {
 	if (event.type == SDL_KEYDOWN)
 	{
-		if (event.key.keysym.sym == SDLK_ESCAPE)
+      	if (event.key.keysym.sym == SDLK_ESCAPE)
 			exit(EXIT_SUCCESS);
-    }
+        if (event.key.keysym.sym == SDLK_0)
+            edit_menu(env, w);
+        if (event.key.keysym.sym == '=')
+            env->sleep += 10000 + env->sleep/4;
+        if (event.key.keysym.sym == '-')
+        {
+            if (env->sleep >= 10000 + env->sleep/4)
+                env->sleep -= 10000 + env->sleep/4;
+            else
+                env->sleep = 0;
+        }
+//		if (event.key.keysym.sym == SDLK_z)
+//			env->zoom += 10;
+	}
 }
+
+typedef float offf_t;
 
 static void draw_pixel(int x, int y, Uint32 color, t_window *w)
 {
@@ -18,7 +34,7 @@ static void draw_pixel(int x, int y, Uint32 color, t_window *w)
         ft_putnbr(x);
         ft_putstr(", y:");
         ft_putnbr(y);
-        ft_putendl("pixel over/under flow");
+        ft_putendl(" pixel over/under flow!!!!!");
         return ;
     }
         w->img_ptr[WIN_X * y + x] = color;
@@ -27,16 +43,16 @@ static void draw_pixel(int x, int y, Uint32 color, t_window *w)
    // SDL_RenderPresent(w->renderer);
 }
 
-static void		draw_pix(t_window *w, int off, int x, int y, Uint32 color)
+static void		draw_pix(t_window *w, offf_t off, offf_t x, offf_t y, Uint32 color)
 {
-	int x1 = -(off / 2);
-	int y1 = -(off / 2);
+    offf_t x1 = -(off / 2);
+    offf_t y1 = -(off / 2);
 
 	while (y1 < off  / 2 + 1)
 	{
 		while (x1 < off / 2 + 1)
 		{
-			draw_pixel(x + x1, y + y1, color, w);
+			draw_pixel((int)(x + x1), (int)(y + y1), color, w);
 			x1++;
 		}
 		x1 = -(off/2);
@@ -44,48 +60,81 @@ static void		draw_pix(t_window *w, int off, int x, int y, Uint32 color)
 	}
 }
 
+
 static void		render_map(t_window *w, t_env *env)
 {
-	int 	off = (int)L_CF(1, 0, env->line, 0, WIN_Y - 10);
-	int 	x = off / 2;
-	int 	y = off / 2;
-	int 	x1 = 0;
-	int		y1 = 0;
-
-   	while (y1 < env->line)
+	float 	tmp = L_CF(1, 0, env->mod, 0, WIN_Y - 10);
+    offf_t     off;
+    offf_t 	x;
+    offf_t 	y;
+    offf_t 	x1 = 0;
+    offf_t		y1 = 0;
+    offf_t     fact = 0;
+    offf_t      x0;
+  //    while (tmp < 1)
+//    {
+//        fact++;
+//        tmp *= 2;
+//    }
+/*	if (fact)
+		tmp = L_CF(1, 0, env->mod / pow(2, fact), 0, WIN_Y - 10);
+	fact = 0;
+	while (tmp < 1)
+	{
+		fact++;
+		tmp *= 2;
+	}*/
+    off = (offf_t)tmp;
+    x0 = (off / 2) + ((WIN_X - (off * env->mod)) / 2);
+    y = (off / 2) + ((WIN_Y - (off * env->mod)) / 2);
+    x = x0;//off / 2;
+    //y = off / 2;
+//    static int c = 0;
+//
+//    if (c >= 3)
+//        c = 0;
+//    static Uint32 color2[3] = {(Uint32) ((255 << 16) + (0 << 8) + 0), (Uint32) ((250 << 16) + (164 << 8) + 1), (Uint32) ((0 << 16) + (0 << 8) + 255)};
+    while (y1 < env->line)
 	{
 		while (x1 < env->mod)
 		{
-            if (env->tab[y1][x1] == 0)
+//			if (x1 == env->mod - 1 || y1 == env->mod - 1)
+//				draw_pixel(x + (off * 2) - 10, y + (off * 2) - 10, WHITE, w);
+            if (env->tab[(int)y1][(int)x1] == 0)
                 draw_pix(w, off, x, y, 0);
-			else if (env->tab[y1][x1] == 1)
-				draw_pix(w, off, x, y, PURPUL);
-            else if (env->tab[y1][x1] == 2)
+			else if (env->tab[(int)y1][(int)x1] == 1)
+				draw_pix(w, off, x, y, GREEN);
+            else if (env->tab[(int)y1][(int)x1] == 2)
                 draw_pix(w, off, x, y,MAGENTA);
-            else if (env->tab[y1][x1] == 3)
+            else if (env->tab[(int)y1][(int)x1] == 3)
                 draw_pix(w, off, x, y, BLEU);
-            else if (env->tab[y1][x1] == 4)
-                draw_pix(w, off, x, y, GREEN);
-            else if (env->tab[y1][x1] == 5)
+            else if (env->tab[(int)y1][(int)x1] == 4)
+                draw_pix(w, off, x, y, PURPUL);
+            else if (env->tab[(int)y1][(int)x1] == 5)
                 draw_pix(w, off, x, y, ORANGE);
-            else if (env->tab[y1][x1] == 6)
+            else if (env->tab[(int)y1][(int)x1] == 6)
                 draw_pix(w, off, x, y, WHITE);
-            else if (env->tab[y1][x1] == 7)
+            else if (env->tab[(int)y1][(int)x1] == 7)
                 draw_pix(w, off, x, y, CYAN);
-            else if (env->tab[y1][x1] == 8)
+            else if (env->tab[(int)y1][(int)x1] == 8)
                 draw_pix(w, off, x, y, RED );
-            else if (env->tab[y1][x1] >= 9)
+            else if (env->tab[(int)y1][(int)x1] >= 9)
                 draw_pix(w, off, x, y, BROWN);
             else
 				draw_pix(w, off, x, y, 0);
 			x +=off;
 			x1++;
+			if (fact != 0)
+				x1 += pow(2, fact);
 		}
 		y += off;
-		x = off /2;
+		x = x0;//off /2;
 		x1 = 0;
 		y1++;
+        if (fact != 0)
+            y1 += pow(2, fact);
 	}
+   // c++;
 }
 
 int        render(t_env * env)
@@ -103,7 +152,7 @@ int        render(t_env * env)
         bzero(w.img_ptr, sizeof(Uint32) * WIN_Y * WIN_X);
     }
  	while (SDL_PollEvent(&w.event))
-		key_handler(w.event, env);
+		key_handler(w.event, env, &w);
 	render_map(&w, env);
 	SDL_UpdateTexture(w.image, NULL, w.img_ptr, WIN_X * sizeof(Uint32));
 	SDL_RenderCopy(w.renderer, w.image, NULL, NULL);

@@ -54,6 +54,8 @@ typedef struct      s_tab
 
 typedef struct		s_env
 {
+	int				lx;
+	int 			ly;
 	char			**map;
     char            *s;
     char            *b;
@@ -74,11 +76,19 @@ typedef struct		s_env
 	int 			dz;
 	int 			is_dz;
 	int 			is_bzero;
+	int 			zoom;
+    int             map_size;
+	int 			ww;
+    int             i;
+    int             drule[8][1];
+    int             is_one;
     t_tab            **lst;
     t_tab            **f;
 }					t_env;
 
-void    			get_arg(t_env *env, char **argv);
+void                pars_oned(char *rule, char *start, t_env *env);
+void                edit_menu(t_env *env, t_window *w);
+void    			get_arg(t_env *env, char **argv, int i);
 void   				print_map(t_env *env);
 void        		exec_life(t_env *env);
 void                init_window(t_window *window);

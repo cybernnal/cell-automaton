@@ -174,10 +174,8 @@ static void     get_tab(char *str, t_env *env)
     exit (0);*/
 }
 
-void     get_arg(t_env *env, char **argv)
+void     get_arg(t_env *env, char **argv, int i)
 {
-    int i = 2;
-
     while (argv[i])
     {
         if (!ft_strcmp("-s", argv[i]))
@@ -200,6 +198,10 @@ void     get_arg(t_env *env, char **argv)
             env->quit = 1;
         else if (!ft_strcmp("-z", argv[i]))
             env->is_dz = 1;
+        else if (!ft_strcmp("-x", argv[i]))
+            env->map_size = ft_atoi(argv[++i]);
+        else if (!ft_strcmp("-ww", argv[i]))
+            env->ww = 1;
         i++;
     }
 }

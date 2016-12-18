@@ -74,7 +74,7 @@ set(SOURCE_FILES
     libft/libft.h
     src/conv_tab.c
     src/error.c
-        src/main.c src/parsing.c src/render.c src/init.c src/exec_life.c src/print_map.c src/args.c)
+        src/main.c src/parsing.c src/render.c src/init.c src/exec_life.c src/print_map.c src/args.c src/edit_menu.c src/one_d.c)
 
 add_executable(life ${SOURCE_FILES})
 
