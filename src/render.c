@@ -101,25 +101,25 @@ static void		render_map(t_window *w, t_env *env)
 //			if (x1 == env->mod - 1 || y1 == env->mod - 1)
 //				draw_pixel(x + (off * 2) - 10, y + (off * 2) - 10, WHITE, w);
             if (env->tab[(int)y1][(int)x1] == 0)
-                draw_pix(w, off, x, y, 0);
+                draw_pix(w, off, x, y, STATE_0);
 			else if (env->tab[(int)y1][(int)x1] == 1)
-				draw_pix(w, off, x, y, GREEN);
+				draw_pix(w, off, x, y, STATE_1);
             else if (env->tab[(int)y1][(int)x1] == 2)
-                draw_pix(w, off, x, y,MAGENTA);
+                draw_pix(w, off, x, y, STATE_2);
             else if (env->tab[(int)y1][(int)x1] == 3)
-                draw_pix(w, off, x, y, BLEU);
+                draw_pix(w, off, x, y, STATE_3);
             else if (env->tab[(int)y1][(int)x1] == 4)
-                draw_pix(w, off, x, y, PURPUL);
+                draw_pix(w, off, x, y, STATE_4);
             else if (env->tab[(int)y1][(int)x1] == 5)
-                draw_pix(w, off, x, y, ORANGE);
+                draw_pix(w, off, x, y, STATE_5);
             else if (env->tab[(int)y1][(int)x1] == 6)
-                draw_pix(w, off, x, y, WHITE);
+                draw_pix(w, off, x, y, STATE_6);
             else if (env->tab[(int)y1][(int)x1] == 7)
-                draw_pix(w, off, x, y, CYAN);
+                draw_pix(w, off, x, y, STATE_7);
             else if (env->tab[(int)y1][(int)x1] == 8)
-                draw_pix(w, off, x, y, RED );
+                draw_pix(w, off, x, y, STATE_8);
             else if (env->tab[(int)y1][(int)x1] >= 9)
-                draw_pix(w, off, x, y, BROWN);
+                draw_pix(w, off, x, y, STATE_9);
             else
 				draw_pix(w, off, x, y, 0);
 			x +=off;

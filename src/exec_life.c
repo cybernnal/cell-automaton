@@ -278,6 +278,7 @@ static void     creat_life(t_env *env)
     int         tly = 0;
     char        tp;
 
+
     char tmp[env->mod][env->mod];
 
     if (env->is_one == 1)

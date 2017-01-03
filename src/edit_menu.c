@@ -95,25 +95,25 @@ static void		render_map(t_window *w, t_env *env)
         while (x1 < env->mod)
         {
             if (env->tab[(int)y1][(int)x1] == 0)
-                draw_pix(w, off, x, y, 0);
-             if (env->tab[(int)y1][(int)x1] == 1)
-                draw_pix(w, off, x, y, PURPUL);
+                draw_pix(w, off, x, y, STATE_0);
+            else if (env->tab[(int)y1][(int)x1] == 1)
+                draw_pix(w, off, x, y, STATE_1);
             else if (env->tab[(int)y1][(int)x1] == 2)
-                draw_pix(w, off, x, y,MAGENTA);
+                draw_pix(w, off, x, y, STATE_2);
             else if (env->tab[(int)y1][(int)x1] == 3)
-                draw_pix(w, off, x, y, BLEU);
+                draw_pix(w, off, x, y, STATE_3);
             else if (env->tab[(int)y1][(int)x1] == 4)
-                draw_pix(w, off, x, y, GREEN);
+                draw_pix(w, off, x, y, STATE_4);
             else if (env->tab[(int)y1][(int)x1] == 5)
-                draw_pix(w, off, x, y, ORANGE);
+                draw_pix(w, off, x, y, STATE_5);
             else if (env->tab[(int)y1][(int)x1] == 6)
-                draw_pix(w, off, x, y, WHITE);
+                draw_pix(w, off, x, y, STATE_6);
             else if (env->tab[(int)y1][(int)x1] == 7)
-                draw_pix(w, off, x, y, CYAN);
+                draw_pix(w, off, x, y, STATE_7);
             else if (env->tab[(int)y1][(int)x1] == 8)
-                draw_pix(w, off, x, y, RED );
+                draw_pix(w, off, x, y, STATE_8);
             else if (env->tab[(int)y1][(int)x1] >= 9)
-                draw_pix(w, off, x, y, BROWN);
+                draw_pix(w, off, x, y, STATE_9);
             else
                 draw_pix(w, off, x, y, 0);
             x +=off;
@@ -229,9 +229,9 @@ static void draw_menu(t_env *env, t_window *w)
     while (i < WIN_X)
         draw_pixel(i++, j, WHITE, w);
     draw_pix(w, rad, WIN_X / 18, WIN_Y / 32, WHITE);
-    draw_pix(w, rad, WIN_X / 18, WIN_Y / 32 + WIN_Y / 32, PURPUL);
-    draw_pix(w, rad, WIN_X / 18 + WIN_X / 18, WIN_Y / 32, MAGENTA);
-    draw_pix(w, rad, WIN_X / 18 + WIN_X / 18, WIN_Y / 32 + WIN_Y / 32, BLEU);
+    draw_pix(w, rad, WIN_X / 18, WIN_Y / 32 + WIN_Y / 32, STATE_1);
+    draw_pix(w, rad, WIN_X / 18 + WIN_X / 18, WIN_Y / 32, STATE_2);
+    draw_pix(w, rad, WIN_X / 18 + WIN_X / 18, WIN_Y / 32 + WIN_Y / 32, STATE_3);
     while (radius > 0)
         drawcircle(WIN_X / 2, WIN_Y / 16, radius--, RED, w);
 }

@@ -27,12 +27,23 @@
 #define WHITE   (Uint32) ((255 << 16) + (255 << 8) + 255)
 #define RED     (Uint32) ((255 << 16) + (0 << 8) + 0)
 #define GREEN   (Uint32) ((0 << 16) + (255 << 8) + 0)
-#define BLEU    (Uint32) ((0 << 16) + (0 << 8) + 255)
+#define BLUE    (Uint32) ((0 << 16) + (0 << 8) + 255)
 #define PURPUL  (Uint32) ((108 << 16) + (2 << 8) + 119)
 #define ORANGE  (Uint32) ((250 << 16) + (164 << 8) + 1)
 #define MAGENTA (Uint32) ((255 << 16) + (0 << 8) + 255)
 #define CYAN    (Uint32) ((0 << 16) + (255 << 8) + 255)
 #define BROWN   (Uint32) ((139 << 16) + (69 << 8) + 19)
+
+#define STATE_0	0
+#define STATE_1	GREEN
+#define STATE_2	BLUE
+#define STATE_3	RED
+#define STATE_4	PURPUL
+#define STATE_5	ORANGE
+#define STATE_6	MAGENTA
+#define STATE_7	CYAN
+#define STATE_8	BROWN
+#define STATE_9	WHITE
 
 typedef struct                  s_window
 {
