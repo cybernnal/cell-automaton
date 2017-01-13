@@ -1,6 +1,6 @@
 //
 // Created by tom billard on 15/12/2016.
-//
+// Compil with ../libft/libft.a
 
 #include "libft.h"
 #include <fcntl.h>

@@ -1,11 +1,18 @@
 # cell-automaton
 cell automaton simulator
 
+Requirement:
+	SDL2
+
+Build:
+	cmake . ; make
+
 Usage:
        
        life map_path [-z (!!!useful!!!)] [-s sleep in ms] [-m iteration min] [-e iteration max]
        
-       Map must be a square, the first line contain only rules: format: birth/stay
+       Map must be a square or y > x, the first line contain only rules: format: birth/stay
+       Argument should be well formated as the behavior is undefined.
        Use '0' on run time to edit the map and 'q' to continue.
        
        * -n n: number of neighbours cell to check (1 default)
@@ -39,3 +46,4 @@ Usage:
          starting_position with 0 or 1 (something like: 00010101000 or 00000100000)
 
 for more information please contact me! :)
+sry for that dirty readme

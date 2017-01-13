@@ -107,4 +107,6 @@ int                 render(t_env *env);
 void                pars_map(t_env *env, char *arg);
 int					ft_error(char *str);
 int					c_to_d(t_env *env);
+void   				get_usage(void);
+
 #endif

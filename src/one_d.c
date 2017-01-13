@@ -17,11 +17,9 @@ void    pars_oned(char *rule, char *start, t_env *env)
     env->is_one = 1;
     i = 0;
     env->tab = (int**)ft_memalloc((sizeof(int*) * 11));
-    //ft_bzero(env->tab, (sizeof(int*) * 11));
     while (i < 11)
     {
         env->tab[i] = (int*)ft_memalloc((sizeof(int) * 11));
-      //  ft_bzero(env->tab, (sizeof(int) * 11));
         i++;
     }
     i = 1;
