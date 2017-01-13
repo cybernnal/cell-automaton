@@ -6,6 +6,7 @@ Usage:
        life map_path [-z (!!!useful!!!)] [-s sleep in ms] [-m iteration min] [-e iteration max]
        
        Map must be a square, the first line contain only rules: format: birth/stay
+       Use '0' on run time to edit the map and 'q' to continue.
        
        * -n n: number of neighbours cell to check (1 default)
        
