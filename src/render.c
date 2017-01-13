@@ -10,7 +10,7 @@ static void key_handler(SDL_Event event, t_env *env, t_window *w)
 			exit(EXIT_SUCCESS);
         if (event.key.keysym.sym == SDLK_0)
             edit_menu(env, w);
-        if (event.key.keysym.sym == '=')
+        if (event.key.keysym.sym == '+')
             env->sleep += 10000 + env->sleep/4;
         if (event.key.keysym.sym == '-')
         {
