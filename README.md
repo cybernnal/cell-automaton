@@ -3,7 +3,7 @@ cell automaton simulator
 
 Usage:
        
-       life map_path [-z (!!!useful!!!)] [-s sleep in ms] [-n neighbours numbers] [-m iteration min] [-e iteration max]
+       life map_path [-z (!!!useful!!!)] [-s sleep in ms] [-m iteration min] [-e iteration max]
        
        Map must be a square, the first line contain only rules: format: birth/stay
        
