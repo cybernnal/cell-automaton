@@ -27,12 +27,23 @@
 #define WHITE   (Uint32) ((255 << 16) + (255 << 8) + 255)
 #define RED     (Uint32) ((255 << 16) + (0 << 8) + 0)
 #define GREEN   (Uint32) ((0 << 16) + (255 << 8) + 0)
-#define BLEU    (Uint32) ((0 << 16) + (0 << 8) + 255)
+#define BLUE    (Uint32) ((0 << 16) + (0 << 8) + 255)
 #define PURPUL  (Uint32) ((108 << 16) + (2 << 8) + 119)
 #define ORANGE  (Uint32) ((250 << 16) + (164 << 8) + 1)
 #define MAGENTA (Uint32) ((255 << 16) + (0 << 8) + 255)
 #define CYAN    (Uint32) ((0 << 16) + (255 << 8) + 255)
 #define BROWN   (Uint32) ((139 << 16) + (69 << 8) + 19)
+
+#define STATE_0	0
+#define STATE_1	GREEN
+#define STATE_2	BLUE
+#define STATE_3	RED
+#define STATE_4	PURPUL
+#define STATE_5	ORANGE
+#define STATE_6	MAGENTA
+#define STATE_7	CYAN
+#define STATE_8	BROWN
+#define STATE_9	WHITE
 
 typedef struct                  s_window
 {
@@ -54,6 +65,8 @@ typedef struct      s_tab
 
 typedef struct		s_env
 {
+	int				lx;
+	int 			ly;
 	char			**map;
     char            *s;
     char            *b;
@@ -74,11 +87,19 @@ typedef struct		s_env
 	int 			dz;
 	int 			is_dz;
 	int 			is_bzero;
+	int 			zoom;
+    int             map_size;
+	int 			ww;
+    int             i;
+    int             drule[8][1];
+    int             is_one;
     t_tab            **lst;
     t_tab            **f;
 }					t_env;
 
-void    			get_arg(t_env *env, char **argv);
+void                pars_oned(char *rule, char *start, t_env *env);
+void                edit_menu(t_env *env, t_window *w);
+void    			get_arg(t_env *env, char **argv, int i);
 void   				print_map(t_env *env);
 void        		exec_life(t_env *env);
 void                init_window(t_window *window);
