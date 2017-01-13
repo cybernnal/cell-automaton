@@ -5,7 +5,7 @@ Requirement:
 	SDL2
 
 Build:
-	cmake . ; make
+	`cmake . ; make`
 
 Usage:
        
